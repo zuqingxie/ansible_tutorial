@@ -11,6 +11,14 @@ This is my awesome tutorial
     ansible all -m ping
 '''
 
-ansible all --list-hosts
-ansible all -m gather_facts
-ansible all -m gather_facts --limit zxie@192.168.106.125
+    ansible all --list-hosts
+    ansible all -m gather_facts
+    ansible all -m gather_facts --limit zxie@192.168.106.125
+    ansible all -m apt -a update_cache=true --become --ask-become-pass # run command with sudo  <=> sudo apt update
+    ansible all -m apt -a name=vim-nox --become --ask-become-pass # <=> sudo apt install vim-nox
+    ansible all -m apt -a "name=snapd state=latest" --become --ask-become-pass
+    ansible all -m apt -a "upgrade=dist" --become --ask-become-pass # <=> sudo apt dist-upgrade -y
+
+
+    ansible-playbook --ask-become-pass install_apache.yml
+    
