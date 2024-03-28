@@ -1,0 +1,52 @@
+---
+
+- hosts: all
+  become: true
+  pre_tasks: # before anything is running
+
+  - name: install update (CentOS)
+    tags: always
+    dnf:
+      update_only: yes
+      update_cache: yes 
+    when: ansible_distribution == "CentOS"
+
+  - name: install update (Ubuntu)
+    tags: always
+    apt:
+      upgrade: dist
+      update_cache: yes 
+    when: ansible_distribution == "Ubuntu"
+
+- hosts: web_servers
+  become: true
+
+  tasks:
+# sudo apt install apach2
+  - name: install apache2 package
+    tags: apache2, Ubuntu
+    apt:
+      name: apache2
+      state: latest # absent to remove the package <=> sudo apt remove apache2
+    when: ansible_distribution == "Ubuntu" 
+    
+  - name: add php support for apache
+    tags: apache2, php, Ubuntu
+    apt:
+      name: libapache2-mod-php
+      state: latest
+    when: ansible_distribution == "Ubuntu" 
+
+  - name: copy default html file for site
+    tags: apache2
+    copy:
+      src: default_site.html
+      dest: /var/www/html/index.html
+      owner: root
+      group: root
+      mode: 0644
+- hosts: db_server
+  become: true
+  tasks:
+
+

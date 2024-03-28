@@ -1,0 +1,15 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+
+# sudo apt install apach2
+  - name: install apache2 package
+    package: 
+      name: 
+        - "{{ apache_package }}"
+        - "{{ php_package }}"
+      state: latest # absent to remove the package <=> sudo apt remove apache2
+      update_cache: yes
+    

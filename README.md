@@ -21,4 +21,5 @@ This is my awesome tutorial
 
 
     ansible-playbook --ask-become-pass install_apache.yml
+    ansible-playbook --ask-become-pass --tags apache2 side.yml
     
